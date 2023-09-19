@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Text Adventure Game</title>
+  <title>Random Game</title>
 </head>
 <body>
-  <h1>Text Adventure Game</h1>
+  <h1>Random Game</h1>
 
-  <p>You are standing in a dark forest. There is a path to the north and a path to the south.</p>
+  <p>You are standing in a dark cave. There is a path to the north, a path to the south. and a path to the east.</p>
 
   <button type="button" id="north">Go north</button>
   <button type="button" id="south">Go south</button>
+  <button type="button" id="east">Go east</button>
 
   <div id="gameText"></div>
 
   <script>
     var currentRoom = "Start Room";
+
+    function east() {
+      if (currentRoom === "Start Room") {
+        currentRoom = "East Room";
+      } else if (currentRoom === "East Room") {
+        currentRoom = "Exit";
+      } else {
+        console.log("You can't go east from here.");
+      }
+
+      updateGame();
+    }
 
     function north() {
       if (currentRoom === "Start Room") {
