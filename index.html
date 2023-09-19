@@ -1,57 +1,70 @@
-#include <iostream>
-#include <string>
-class Game {
-public:
-  Game() {
-    currentRoom = startRoom;
-  }
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text Adventure Game</title>
+</head>
+<body>
+  <h1>Text Adventure Game</h1>
 
-  void moveNorth() {
-    if (currentRoom->getNorth() != nullptr) {
-      currentRoom = currentRoom->getNorth();
-    } else {
-      std::cout << "You can't go north from here." << std::endl;
+  <p>You are standing in a dark forest. There is a path to the north and a path to the south.</p>
+
+  <button type="button" id="north">Go north</button>
+  <button type="button" id="south">Go south</button>
+
+  <div id="gameText"></div>
+
+  <script>
+    var currentRoom = "Start Room";
+
+    function north() {
+      if (currentRoom === "Start Room") {
+        currentRoom = "North Room";
+      } else if (currentRoom === "North Room") {
+        currentRoom = "Exit";
+      } else {
+        console.log("You can't go north from here.");
+      }
+
+      updateGame();
     }
-  }
 
-  void moveSouth() {
-    if (currentRoom->getSouth() != nullptr) {
-      currentRoom = currentRoom->getSouth();
-    } else {
-      std::cout << "You can't go south from here." << std::endl;
+    function south() {
+      if (currentRoom === "Start Room") {
+        currentRoom = "South Room";
+      } else if (currentRoom === "South Room") {
+        currentRoom = "Start Room";
+      } else {
+        console.log("You can't go south from here.");
+      }
+
+      updateGame();
     }
-  }
 
-  void printCurrentRoom() {
-    std::cout << currentRoom->getName() << std::endl;
-    std::cout << currentRoom->getDescription() << std::endl;
-  }
+    function updateGame() {
+      var gameText = "";
 
-private:
-  Room* currentRoom;
-  Room* startRoom;
-};
-Room startRoom("Start Room", "You are standing in a room. There is a door to the north and a door to the south.");
-Room northRoom("North Room", "You are in a north room. There is a door to the south and a door to the east.");
-Room southRoom("South Room", "You are in a south room. There is a door to the north and a door to the west.");
+      switch (currentRoom) {
+        case "Start Room":
+          gameText = "You are standing in a dark forest. There is a path to the north and a path to the south.";
+          break;
+        case "North Room":
+          gameText = "You are in a clearing in the forest. There is a door to the east and a door to the west.";
+          break;
+        case "South Room":
+          gameText = "You are in a cave. There is a light in the distance.";
+          break;
+        case "Exit":
+          gameText = "You have reached the exit! Congratulations!";
+          break;
+      }
 
-Game game;
-game.startRoom = &startRoom;
+      document.getElementById("gameText").innerHTML = gameText;
+    }
 
-while (true) {
-  game.printCurrentRoom();
+    document.getElementById("north").addEventListener("click", north);
+    document.getElementById("south").addEventListener("click", south);
 
-  std::string input;
-  std::cout << "What do you want to do? (north/south/quit): ";
-  std::cin >> input;
-
-  if (input == "north") {
-    game.moveNorth();
-  } else if (input == "south") {
-    game.moveSouth();
-  } else if (input == "quit") {
-    break;
-  } else {
-    std::cout << "Invalid command." << std::endl;
-  }
-}
+    updateGame();
+  </script>
+</body>
+</html>
